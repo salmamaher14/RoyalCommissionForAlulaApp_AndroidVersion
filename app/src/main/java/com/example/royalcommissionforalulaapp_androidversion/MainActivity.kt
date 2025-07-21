@@ -11,28 +11,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ButtonComponent
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.Login
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+          //  window.statusBarColor = colorResource(R.color.white).toArgb()
+
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ButtonComponent(
-                        title = "dldlld",
-                        modifier = Modifier.fillMaxWidth().padding()
-                    ) {
-                        println("clicked")
-                    }
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+               Login()
             }
         }
     }

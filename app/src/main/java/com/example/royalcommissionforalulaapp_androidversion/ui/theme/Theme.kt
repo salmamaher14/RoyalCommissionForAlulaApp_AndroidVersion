@@ -40,6 +40,16 @@ fun RoyalCommissionForAlulaApp_AndroidVersionTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val colorScheme = LightColorScheme
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+/*
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -49,10 +59,4 @@ fun RoyalCommissionForAlulaApp_AndroidVersionTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
-}
+ */
