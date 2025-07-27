@@ -1,17 +1,24 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,19 +37,24 @@ import androidx.compose.ui.unit.sp
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ButtonComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.TextFieldComponent
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.viewmodel.LoginViewmodel
 
 
 @Composable
-fun Login() {
+fun Login(viewmodel: LoginViewmodel) {
+    val loginResult by viewmodel.loginResult.collectAsState()
+
+
+
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding()
-        ,
+            .padding(),
 
         contentAlignment = Alignment.Center
-    ){
+    ) {
+
         Image(
             painter = painterResource(R.drawable.mob),
             contentDescription = "login background",
@@ -51,19 +63,30 @@ fun Login() {
                 .fillMaxSize()
         )
 
-        MainBox()
+        MainBox(viewmodel)
 
         CopyRightsLogo(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         )
     }
-
 }
+
+/*
+    loginResult?.onSuccess {
+        Log.d("result", "Login: ${it.name}")
+        Text("Success: ${it.name}")
+    }?.onFailure {
+        Text("fialure: ${it.message}")
+    }
+ */
+
+
+
 
 
 @Composable
-fun MainBox() {
+fun MainBox(viewmodel: LoginViewmodel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,9 +94,9 @@ fun MainBox() {
             .background(Color.Black.copy(0.3F))
     ) {
 
-        Column() {
+        Column {
             LogoWithTitle()
-            UserData()
+            UserData(viewmodel)
         }
 
     }
@@ -110,7 +133,7 @@ fun CopyRightsLogo(modifier: Modifier) {
         painter = painterResource(R.drawable.rights),
         contentDescription = "rights_logo",
         modifier = modifier
-            .size(width = 200.dp , height = 200.dp)
+            .size(width = 200.dp, height = 200.dp)
             .padding(vertical = 12.dp)
         ,
 
@@ -125,7 +148,7 @@ fun AppTitle() {
         fontSize = 20.sp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding( 12.dp)
+            .padding(12.dp)
         ,
         color = colorResource(R.color.main_color),
         fontFamily = FontFamily(
@@ -136,9 +159,11 @@ fun AppTitle() {
 }
 
 @Composable
-fun UserData() {
+fun UserData(viewmodel: LoginViewmodel) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val showDialog by remember { mutableStateOf(true) }
+    val loginResult by viewmodel.loginResult.collectAsState()
 
     Column(
         modifier = Modifier.padding(12.dp),
@@ -159,20 +184,29 @@ fun UserData() {
 
         LoginButton(
             modifier = Modifier
-                .padding(vertical = 20.dp)
+                .padding(vertical = 20.dp),
+            onClick = {
+                viewmodel.login(username, password)
+            }
         )
 
     }
 
+    if (showDialog){
+
+    }
+
+
+
 }
 
 @Composable
-fun LoginButton(modifier: Modifier) {
+fun LoginButton(modifier: Modifier, onClick: () -> Unit) {
     ButtonComponent(
         modifier = modifier
             .fillMaxWidth(),
 
         title = "Login",
-        onClick = {}
+        onClick = onClick
     )
 }

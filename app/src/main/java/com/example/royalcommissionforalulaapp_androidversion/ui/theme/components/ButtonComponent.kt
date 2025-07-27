@@ -106,7 +106,7 @@ fun TextFieldComponentPreview() {
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
-    Login()
+   // Login()
 }
 
 

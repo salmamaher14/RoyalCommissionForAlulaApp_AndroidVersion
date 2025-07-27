@@ -10,24 +10,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.RetrofitProviderImpl
+import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.TestRetrofitProviderImpl
+import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view.Login
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.viewmodel.LoginViewmodel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-          //  window.statusBarColor = colorResource(R.color.white).toArgb()
-
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
-               Login()
+                Login(viewmodel = LoginViewmodel(repository = RepositoryImpl(RetrofitProviderImpl().getApiService())))
             }
         }
     }
 }
-// change 1
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
