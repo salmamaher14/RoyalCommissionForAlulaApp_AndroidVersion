@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,8 +36,8 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 fun Login() {
 
     Box(
-        modifier = Modifier.
-        fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding()
         ,
 
@@ -55,7 +56,6 @@ fun Login() {
         CopyRightsLogo(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-            // .padding(bottom = 16.dp)
         )
     }
 
@@ -110,10 +110,9 @@ fun CopyRightsLogo(modifier: Modifier) {
         painter = painterResource(R.drawable.rights),
         contentDescription = "rights_logo",
         modifier = modifier
-            .fillMaxWidth()
-            .padding(12.dp)
-            .padding(vertical = 30.dp),
-
+            .size(width = 200.dp , height = 200.dp)
+            .padding(vertical = 12.dp)
+        ,
 
         alignment = Alignment.Center
     )
