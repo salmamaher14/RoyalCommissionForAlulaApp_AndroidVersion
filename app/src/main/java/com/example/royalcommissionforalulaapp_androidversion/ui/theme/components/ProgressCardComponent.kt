@@ -86,8 +86,6 @@ fun CircularProgressView(progress: Double) {
 }
 
 
-
-
 @Composable
 fun LabeledCircularProgressView (
     modifier: Modifier = Modifier,
@@ -109,7 +107,6 @@ fun LabeledCircularProgressView (
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-               // .wrapContentHeight()
                 .padding(12.dp)
         )
 
@@ -230,7 +227,7 @@ fun CircularProgressViewPreview (modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        CircularProgressView(progress = 65.0)
+        CircularProgressView(progress = 0.0)
     }
 }
 
