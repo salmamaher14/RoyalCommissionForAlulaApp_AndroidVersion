@@ -1,20 +1,16 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.royalcommissionforalulaapp_androidversion.R
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.AlertComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ButtonComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.TextFieldComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.viewmodel.LoginViewmodel
@@ -42,10 +39,6 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 
 @Composable
 fun Login(viewmodel: LoginViewmodel) {
-    val loginResult by viewmodel.loginResult.collectAsState()
-
-
-
 
     Box(
         modifier = Modifier
@@ -71,17 +64,6 @@ fun Login(viewmodel: LoginViewmodel) {
         )
     }
 }
-
-/*
-    loginResult?.onSuccess {
-        Log.d("result", "Login: ${it.name}")
-        Text("Success: ${it.name}")
-    }?.onFailure {
-        Text("fialure: ${it.message}")
-    }
- */
-
-
 
 
 
@@ -162,8 +144,19 @@ fun AppTitle() {
 fun UserData(viewmodel: LoginViewmodel) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val showDialog by remember { mutableStateOf(true) }
+    var showDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
     val loginResult by viewmodel.loginResult.collectAsState()
+
+
+    LaunchedEffect(loginResult) {
+        loginResult?.onFailure {
+            showDialog = true
+            errorMessage = it.toString()
+        }
+
+    }
+
 
     Column(
         modifier = Modifier.padding(12.dp),
@@ -187,17 +180,22 @@ fun UserData(viewmodel: LoginViewmodel) {
                 .padding(vertical = 20.dp),
             onClick = {
                 viewmodel.login(username, password)
+                viewmodel.checkUserData(username, password)
             }
         )
 
     }
 
     if (showDialog){
-
+        AlertComponent(
+            title = "invalid data",
+            confirmButtonTitle = "ok",
+            message = "please enter correct username and password.",
+            onDismiss = {
+                showDialog = false
+            }
+        )
     }
-
-
-
 }
 
 @Composable

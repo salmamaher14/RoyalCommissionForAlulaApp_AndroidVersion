@@ -108,40 +108,6 @@ fun AlertDialogPreview(modifier: Modifier = Modifier) {
 
 
 
-/*
-        AlertDialog(
-            onDismissRequest = {  },
-            title = {
-                //CustomAlertTitle(text = title)
-            },
-
-            text = { Text(
-                text = "message",
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                //fontFamily = FontFamily(Font(R.font.regular_font))
-
-            )},
-
-            confirmButton = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                 //   horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = "أعد المحاولة",
-                        // fontFamily = FontFamily(Font(R.font.regular_font)),
-                        //  modifier = Modifier.clickable { onDismiss() },
-                        color = Color.Blue
-                    )
-
-                }
-            }
-        )
- */
-
-
 
 
 
