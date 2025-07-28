@@ -2,10 +2,18 @@ package com.example.royalcommissionforalulaapp_androidversion.db
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
+
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.model.UserData
 import androidx.core.content.edit
 
-class UserPreferences private constructor(context: Context) {
+
+interface UserPreferences {
+    fun saveData(userData: UserData)
+    fun getData(): UserData
+    fun clearData()
+}
+
+class UserPreferencesImpl private constructor(context: Context): UserPreferences {
 
     companion object {
         @Volatile
@@ -14,7 +22,7 @@ class UserPreferences private constructor(context: Context) {
 
         fun getInstance(context: Context): UserPreferences {
             return instance ?: synchronized(this) {
-                instance ?: UserPreferences(context.applicationContext).also { instance = it }
+                instance ?: UserPreferencesImpl(context.applicationContext).also { instance = it }
             }
         }
 
@@ -27,21 +35,27 @@ class UserPreferences private constructor(context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    fun saveUserData(token: String, name: String, role: String) {
+    override fun saveData(userData: UserData) {
         sharedPreferences.edit().apply {
-            putString(KEY_TOKEN, token)
-            putString(KEY_NAME, name)
-            putString(KEY_ROLE, role)
+            putString(KEY_TOKEN, userData.token)
+            putString(KEY_NAME, userData.name)
+            putString(KEY_ROLE, userData.role)
             apply()
         }
     }
 
-    fun getUserToken(): String? = sharedPreferences.getString(KEY_TOKEN, null)
-    fun getUserName(): String? = sharedPreferences.getString(KEY_NAME, null)
-    fun getUserRole(): String? = sharedPreferences.getString(KEY_ROLE, null)
+    override fun getData(): UserData {
+        val token = sharedPreferences.getString(KEY_TOKEN, null)
+        val name = sharedPreferences.getString(KEY_NAME, null)
+        val role = sharedPreferences.getString(KEY_ROLE, null)
 
-    fun clearUserData() {
-        sharedPreferences.edit { clear() }
-        Log.d("after clearing data", "clearUserData: ${getUserToken()}")
+        return UserData(token, name, role)
     }
+
+    override fun clearData() {
+        sharedPreferences.edit { clear() }
+    }
+
+
 }
+

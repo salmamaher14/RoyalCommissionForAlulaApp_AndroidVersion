@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.royalcommissionforalulaapp_androidversion.db.UserPreferencesImpl
 import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.RetrofitProviderImpl
-import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.TestRetrofitProviderImpl
 import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 
@@ -24,7 +24,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
-                Login(viewmodel = LoginViewmodel(repository = RepositoryImpl(RetrofitProviderImpl().getApiService())))
+                Login(viewmodel = LoginViewmodel(
+                    repository = RepositoryImpl(
+                        RetrofitProviderImpl().getApiService(),
+                        localService = UserPreferencesImpl.getInstance(applicationContext)
+                    )
+                ))
             }
         }
     }

@@ -7,6 +7,11 @@ data class LoginRequest(
     val username: String,
     val password: String
 )
+data class UserData(
+    val token: String?,
+    val name: String?,
+    val role: String?
+)
 
 data class LoginResponse(
     @SerializedName("Token") val token: String?,
