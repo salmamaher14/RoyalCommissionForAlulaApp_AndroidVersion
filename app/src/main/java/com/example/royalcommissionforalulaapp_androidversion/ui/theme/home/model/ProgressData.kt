@@ -14,7 +14,7 @@ data class Step(
 )
 
 data class ProgressData(
-    @SerializedName("Steps") val step: List<Step>,
+    @SerializedName("Steps") val steps: List<Step>,
     @SerializedName("isOk") val isOk: Boolean?,
     @SerializedName("isException") val isException: Boolean?,
     @SerializedName("Message") val message: String?,

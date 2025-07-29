@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import com.example.royalcommissionforalulaapp_androidversion.R
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -17,14 +19,18 @@ fun ReusableTextComponent(
     text: String,
     fontFamily: FontFamily = FontFamily(Font(R.font.text_regular)),
     fontSize: TextUnit = 14.sp,
-    textAlign: TextAlign = TextAlign.Left
+    textAlign: TextAlign = TextAlign.Left,
+    textColor: Color = colorResource(R.color.dark_black)
 ) {
+
+
     Text(
         text = text,
+        color = textColor,
         modifier = modifier,
         fontSize = fontSize,
         fontFamily = fontFamily,
-        textAlign = textAlign
+        textAlign = textAlign,
     )
 }
 
