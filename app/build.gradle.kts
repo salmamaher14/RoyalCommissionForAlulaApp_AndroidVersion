@@ -37,6 +37,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
 }
 
 dependencies {
@@ -74,5 +80,9 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-core:1.7.8")
 
 
+    // arc gis sdk
+
+    implementation("com.esri.arcgisruntime:arcgis-android:100.15.6")
 
 }
+

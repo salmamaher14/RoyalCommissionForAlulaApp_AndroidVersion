@@ -9,6 +9,11 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            url = uri("https://esri.jfrog.io/artifactory/arcgis")
+
+
+        }
     }
 }
 dependencyResolutionManagement {
@@ -16,8 +21,17 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        maven{
+            url = uri("https://esri.jfrog.io/artifactory/arcgis")
+
+        }
     }
+
+
 }
 
 rootProject.name = "RoyalCommissionForAlulaApp_AndroidVersion"
 include(":app")
+
+

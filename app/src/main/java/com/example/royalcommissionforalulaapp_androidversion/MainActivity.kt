@@ -10,25 +10,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.tooling.preview.Preview
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
+import com.example.royalcommissionforalulaapp_androidversion.constants.Constants
 import com.example.royalcommissionforalulaapp_androidversion.db.UserPreferencesImpl
 import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.RetrofitProviderImpl
 import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view.HomeScreen
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view.MapViewComponent
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel.MapViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ArcGISRuntimeEnvironment.setApiKey(Constants.arcGisMapKey)
         enableEdgeToEdge()
         setContent {
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
-                HomeScreen(
+               /* HomeScreen(
                     viewModel = HomeViewModel(repo = RepositoryImpl(
                         RetrofitProviderImpl().getApiService(),
                         localService = UserPreferencesImpl.getInstance(applicationContext)
                     ))
-                )
+                )*/
+
+                MapViewComponent()
             }
         }
     }
