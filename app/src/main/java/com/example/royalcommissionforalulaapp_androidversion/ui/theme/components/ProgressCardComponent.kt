@@ -94,7 +94,9 @@ fun LabeledCircularProgressView (
     progress: Double
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+        ,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -107,7 +109,6 @@ fun LabeledCircularProgressView (
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
         )
 
         CircularProgressView(progress= progress)
@@ -117,7 +118,7 @@ fun LabeledCircularProgressView (
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(bottom = 12.dp)
         )
     }
 }
@@ -135,7 +136,7 @@ fun TotalProgressView(
     Row(
         modifier = modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
+       // horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LabeledCircularProgressView(
@@ -144,7 +145,6 @@ fun TotalProgressView(
             progress = perc1,
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically)
         )
 
         LabeledCircularProgressView(
@@ -153,7 +153,6 @@ fun TotalProgressView(
             progress = perc2,
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically)
         )
     }
 }
@@ -181,7 +180,7 @@ fun CardView(
             fontSize = 18.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(vertical = 12.dp),
             textAlign = TextAlign.Center
         )
 
