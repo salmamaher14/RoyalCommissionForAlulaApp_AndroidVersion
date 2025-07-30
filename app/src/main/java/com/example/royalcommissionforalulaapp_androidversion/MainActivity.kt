@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     ))
                 )*/
 
-                MapViewComponent()
+                MapViewComponent(viewmodel = MapViewModel())
             }
         }
     }
