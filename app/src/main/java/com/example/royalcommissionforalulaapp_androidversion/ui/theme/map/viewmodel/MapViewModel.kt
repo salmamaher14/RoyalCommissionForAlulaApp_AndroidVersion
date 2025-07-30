@@ -1,12 +1,10 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel
 
 import android.graphics.Color
-import android.system.Int64Ref
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.esri.arcgisruntime.data.Feature
 import com.esri.arcgisruntime.layers.FeatureLayer
-import com.esri.arcgisruntime.layers.GroupLayer
 import com.esri.arcgisruntime.mapping.ArcGISMap
 import com.esri.arcgisruntime.mapping.view.Graphic
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay
@@ -25,7 +23,6 @@ class MapViewModel: ViewModel() {
     val buildingLayer: StateFlow<FeatureLayer?> = _buildingLayer
 
     private var _selectedBuildingId = MutableStateFlow<Long?>(null)
-
     var selectedBuildingId: StateFlow<Long?> = _selectedBuildingId
 
     val  graphicsOverlay = GraphicsOverlay()
@@ -83,8 +80,6 @@ class MapViewModel: ViewModel() {
 
     private fun handleIdentifiedFeature(feature: Feature) {
         val objectId = feature.attributes["OBJECTID"]
-        Log.d("IdentifyLayer", "Selected OBJECTID: $objectId")
-
         _selectedBuildingId.value = objectId as Long?
 
         feature.geometry?.let { geometry ->
@@ -103,7 +98,6 @@ class MapViewModel: ViewModel() {
             val graphic = Graphic(geometry, fillSymbol)
 
             graphicsOverlay.graphics.clear()
-            Log.d("MapViewComponent", "MapViewComponent: adding graphics overlays")
             graphicsOverlay.graphics.add(graphic)
 
         }

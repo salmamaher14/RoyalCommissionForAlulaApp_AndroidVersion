@@ -3,6 +3,9 @@ package com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view
 import android.view.MotionEvent
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -10,7 +13,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -78,7 +83,10 @@ fun MapViewComponent(
 
             mapView
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
+            .height(400.dp)
+            .clip(RoundedCornerShape(15.dp))
     )
 }
 

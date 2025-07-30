@@ -17,6 +17,7 @@ import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.Re
 import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view.HomeScreen
+
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view.MapViewComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel.MapViewModel
@@ -28,14 +29,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
-               /* HomeScreen(
+              /*  HomeScreen(
                     viewModel = HomeViewModel(repo = RepositoryImpl(
                         RetrofitProviderImpl().getApiService(),
                         localService = UserPreferencesImpl.getInstance(applicationContext)
                     ))
                 )*/
 
-                MapViewComponent(viewmodel = MapViewModel())
+
+                //MapViewComponent(viewmodel = MapViewModel())
             }
         }
     }

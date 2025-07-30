@@ -81,8 +81,11 @@ dependencies {
 
 
     // arc gis sdk
-
     implementation("com.esri.arcgisruntime:arcgis-android:100.15.6")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+
+
 
 }
 

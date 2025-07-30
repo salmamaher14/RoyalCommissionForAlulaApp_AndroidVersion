@@ -1,14 +1,18 @@
 package com.example.royalcommissionforalulaapp_androidversion.repo
 
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.model.BuildingData
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.model.ProgressData
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.model.LoginRequest
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.model.LoginResponse
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.model.UserData
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface Repository {
     suspend fun login(userData: LoginRequest): LoginResponse
     suspend fun getProgress(token: String): ProgressData
+    suspend fun getBuilding(buildingId: String, token: String): BuildingData
+    suspend fun downloadFile(fileUrl: String): Response<ResponseBody>
     fun saveUserData(userData: UserData)
     fun getStoredUserData(): UserData
-
 }
