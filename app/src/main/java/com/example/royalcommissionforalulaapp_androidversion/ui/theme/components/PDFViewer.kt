@@ -1,10 +1,12 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 
 import android.webkit.WebView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 
@@ -27,6 +29,8 @@ fun PdfViewer(pdfUrl: String) {
         update = { view ->
             view.loadUrl("https://docs.google.com/gview?embedded=true&url=$pdfUrl")
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
     )
 }

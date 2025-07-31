@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -21,7 +23,7 @@ import coil.request.ImageRequest
 
 @Composable
 fun ImageViewer(imageUrl: String) {
-    var scale by remember { mutableStateOf(1f) }
+    var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
 
     Box(
@@ -34,6 +36,7 @@ fun ImageViewer(imageUrl: String) {
                 }
             }
     ) {
+        Log.d("ImageViewer", "ImageViewer: ")
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
@@ -47,8 +50,8 @@ fun ImageViewer(imageUrl: String) {
                     translationX = offset.x,
                     translationY = offset.y
                 )
-                .fillMaxWidth()
-                .padding(16.dp)
+                .fillMaxSize()
+
         )
     }
 }
