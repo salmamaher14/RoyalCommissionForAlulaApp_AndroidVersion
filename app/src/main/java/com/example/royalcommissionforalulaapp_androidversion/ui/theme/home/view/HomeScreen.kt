@@ -42,6 +42,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view.MapViewComponent
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel.MapViewModel
 
 @Composable
 fun HomeScreen(
@@ -65,8 +67,8 @@ fun HomeScreen(
             .padding(vertical = 50.dp)
             .padding(12.dp)
     ) {
-       // ScopeOfWork(viewModel)
-        //ProgressCards(viewModel)
+        ScopeOfWork(viewModel)
+        ProgressCards(viewModel)
     }
 
 

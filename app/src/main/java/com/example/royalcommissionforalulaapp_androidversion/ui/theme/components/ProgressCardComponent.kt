@@ -136,7 +136,6 @@ fun TotalProgressView(
     Row(
         modifier = modifier
             .fillMaxWidth(),
-       // horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LabeledCircularProgressView(

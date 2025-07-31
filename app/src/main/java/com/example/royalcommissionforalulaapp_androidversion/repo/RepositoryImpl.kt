@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.repo
 
+import android.util.Log
 import com.example.royalcommissionforalulaapp_androidversion.db.UserPreferences
 import com.example.royalcommissionforalulaapp_androidversion.network.ApiService
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.model.BuildingData
@@ -21,6 +22,7 @@ class RepositoryImpl(private val apiService: ApiService, private val localServic
      }
 
     override suspend fun getBuilding(buildingId: String, token: String): BuildingData {
+        Log.d("repo", "getBuilding: $buildingId")
         return apiService.getBuilding(buildingId, token)
     }
 

@@ -12,12 +12,11 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class HomeViewModel(val repo: Repository): ViewModel() {
+class HomeViewModel(private val repo: Repository): ViewModel() {
     private val _progressSteps = MutableStateFlow<List<Step>?>(null)
     val progressSteps: StateFlow<List<Step>?> = _progressSteps
 
-    private val _buildingFiles = MutableStateFlow<List<Page>?>(null)
-    val buildingFiles: StateFlow<List<Page>?> = _buildingFiles
+
 
 
     private val _totalOfBuildings = MutableStateFlow<Int?>(0)
@@ -30,11 +29,7 @@ class HomeViewModel(val repo: Repository): ViewModel() {
         _totalOfBuildings.value = response.steps.first().total
     }
 
-    suspend fun getBuilding(){
-        val response = repo.getBuilding(buildingId = "16", token = "h5wJeT2/BqAMYdWINCoj4IUj0iG8XketPidZrjD7EWD7RkvrZQsr7o51Om9U74IfgwNUGnE/0Pg=")
-        _buildingFiles.value = response.pages
 
-    }
 
     suspend fun downloadFile(context: Context) {
         val response = repo.downloadFile(fileUrl = "https://itqan-consultant.com/s3/Rcu/2025/4/30/638815977779536959.pdf")

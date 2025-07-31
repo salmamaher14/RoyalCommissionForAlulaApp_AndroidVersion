@@ -12,18 +12,22 @@ import com.esri.arcgisruntime.mapping.view.MapView
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol
 import com.example.royalcommissionforalulaapp_androidversion.constants.Constants
+import com.example.royalcommissionforalulaapp_androidversion.repo.Repository
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.sheets.model.Page
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class MapViewModel: ViewModel() {
+class MapViewModel(private val repo: Repository): ViewModel() {
     private var _map = MutableStateFlow<ArcGISMap?>(null)
     val map: MutableStateFlow<ArcGISMap?> = _map
 
-    private var _buildingLayer = MutableStateFlow<FeatureLayer?>(null)
-    val buildingLayer: StateFlow<FeatureLayer?> = _buildingLayer
+
 
     private var _selectedBuildingId = MutableStateFlow<Long?>(null)
     var selectedBuildingId: StateFlow<Long?> = _selectedBuildingId
+
+    private val _buildingPages = MutableStateFlow<List<Page>?>(null)
+    val buildinPages: StateFlow<List<Page>?> = _buildingPages
 
     val  graphicsOverlay = GraphicsOverlay()
 
@@ -64,6 +68,7 @@ class MapViewModel: ViewModel() {
                         ?.let { geoElement ->
                             val feature = geoElement as? Feature
                             feature?.let {
+                                setBuildingId(feature)
                                 handleIdentifiedFeature(it)
                             }
                         }
@@ -79,9 +84,6 @@ class MapViewModel: ViewModel() {
     }
 
     private fun handleIdentifiedFeature(feature: Feature) {
-        val objectId = feature.attributes["OBJECTID"]
-        _selectedBuildingId.value = objectId as Long?
-
         feature.geometry?.let { geometry ->
             val outline = SimpleLineSymbol(
                 SimpleLineSymbol.Style.SOLID,
@@ -101,6 +103,17 @@ class MapViewModel: ViewModel() {
             graphicsOverlay.graphics.add(graphic)
 
         }
+    }
+
+    private fun setBuildingId(feature: Feature){
+        val objectId = feature.attributes["OBJECTID"]
+        _selectedBuildingId.value = objectId as Long?
+    }
+
+    suspend fun  getBuildingFiles(buildingId: Long){
+        val response = repo.getBuilding(buildingId = buildingId.toString(), token = "h5wJeT2/BqAMYdWINCoj4IUj0iG8XketPidZrjD7EWD7RkvrZQsr7o51Om9U74IfgwNUGnE/0Pg=")
+        _buildingPages.value = response.pages
+
     }
 
 
