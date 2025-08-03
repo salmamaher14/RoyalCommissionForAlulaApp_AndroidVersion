@@ -1,9 +1,7 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,30 +61,25 @@ fun FileCard(
                      .padding(8.dp)
 
              )
-         }
+        }
 
         page.files?.forEach { file ->
+            FileRow(
+                fileName = file.name ?: "unknown file",
+                fileUrl = file.url,
 
-                FileRow(
-                    fileName = file.name ?: "unknown file",
-                    fileUrl = file.url,
+                onClick = {
 
-                    onClick = {
-
-                        fileType = Utilities.getFileFormat(name = file.name ?: "")
-                        fileUrl = file.url
+                    fileType = Utilities.getFileFormat(name = file.name ?: "")
+                    fileUrl = file.url
 
 
-                        if (fileType != null && fileUrl?.isNotEmpty() == true){
-                            Log.d("FileRow", "FileRow: yes")
-                            showModal = true
-                        }else{
-                            Log.d("FileRow", "FileRow: no")
-
-                        }
-
+                    if (fileType != null && fileUrl?.isNotEmpty() == true){
+                        showModal = true
                     }
-                )
+
+                }
+            )
 
         }
 
@@ -121,7 +114,6 @@ fun FileRow(
             .padding(8.dp)
             .clickable {
                 onClick()
-                Log.d("FileRow", "FileRow: clicked ")
             },
 
         verticalAlignment = Alignment.CenterVertically,
