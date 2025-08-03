@@ -1,9 +1,10 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view
 
-import android.webkit.WebView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,16 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
@@ -29,21 +33,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.CardView
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ReusableTextComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.TopBarComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+
+import com.example.royalcommissionforalulaapp_androidversion.db.UserPreferencesImpl
+import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.RetrofitProviderImpl
+import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view.MapViewComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel.MapViewModel
+
+
+
 
 @Composable
 fun HomeScreen(
@@ -53,26 +56,35 @@ fun HomeScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.downloadFile(context)
-        //viewModel.getProgress()
-       // viewModel.getBuilding()
+        viewModel.getProgress()
     }
 
-    TopBarComponent(
-        modifier = Modifier.height(200.dp)
-    )
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 50.dp)
-            .padding(12.dp)
-    ) {
-        ScopeOfWork(viewModel)
-        ProgressCards(viewModel)
-    }
 
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBarComponent()
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            ScopeOfWork(viewModel)
+
+            ProgressCards(viewModel)
+
+            MapViewComponent(
+                viewmodel = MapViewModel(
+                    repo = RepositoryImpl(
+                        RetrofitProviderImpl().getApiService(),
+                        localService = UserPreferencesImpl.getInstance(context)
+                    )
+                )
+            )
+        }
+    }
 
 }
+
 @Composable
 fun ScopeOfWork(
     viewModel: HomeViewModel,
@@ -83,21 +95,25 @@ fun ScopeOfWork(
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
-        //verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
         ReusableTextComponent(
             text = "Scope Of Work:",
             fontSize = 22.sp,
             fontFamily = FontFamily(Font(R.font.text_semi_bold)),
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .padding(0.dp)
+                .background(Color.Red)
         )
 
         if(totalOfBuildings != 0){
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+               // modifier = Modifier.background(Color.Gray)
             ) {
 
                 ReusableTextComponent(
@@ -157,7 +173,6 @@ fun ProgressCards(
             }
         }else {
             LazyRow(
-                modifier = Modifier.padding(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -177,17 +192,6 @@ fun ProgressCards(
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

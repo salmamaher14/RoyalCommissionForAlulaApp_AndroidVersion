@@ -69,10 +69,8 @@ fun FileCard(
                 fileUrl = file.url,
 
                 onClick = {
-
                     fileType = Utilities.getFileFormat(name = file.name ?: "")
                     fileUrl = file.url
-
 
                     if (fileType != null && fileUrl?.isNotEmpty() == true){
                         showModal = true

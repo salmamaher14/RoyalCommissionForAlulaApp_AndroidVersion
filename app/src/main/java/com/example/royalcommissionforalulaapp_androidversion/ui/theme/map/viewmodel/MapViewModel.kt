@@ -21,30 +21,31 @@ class MapViewModel(private val repo: Repository): ViewModel() {
     private var _map = MutableStateFlow<ArcGISMap?>(null)
     val map: MutableStateFlow<ArcGISMap?> = _map
 
+    private  var  _isLoading = MutableStateFlow(false)
+    var isLoading: StateFlow<Boolean> = _isLoading
 
+    private var _alertMessage = MutableStateFlow<String?>(null)
+    var alertMessage: StateFlow<String?> = _alertMessage
 
     private var _selectedBuildingId = MutableStateFlow<Long?>(null)
     var selectedBuildingId: StateFlow<Long?> = _selectedBuildingId
 
     private val _buildingPages = MutableStateFlow<List<Page>?>(null)
-    val buildinPages: StateFlow<List<Page>?> = _buildingPages
-
+    val buildingPages: StateFlow<List<Page>?> = _buildingPages
     val  graphicsOverlay = GraphicsOverlay()
 
 
     fun getMap(): ArcGISMap{
-        Log.d("MapViewComponent", "getMap: ")
         return ArcGISMap(Constants.webMapUrl)
     }
 
     fun setMapView(map: ArcGISMap) {
-        Log.d("MapViewComponent", "MapViewComponent: here in setMapView")
-
         _map.value = map
     }
 
     fun identifyLayer(screenPoint: android.graphics.Point, mapView: MapView){
         try {
+            _isLoading.value = true
             val tolerance = 0.0
             val returnPopupsOnly = false
             val maxResults = 5
@@ -58,25 +59,31 @@ class MapViewModel(private val repo: Repository): ViewModel() {
 
             identifyFuture.addDoneListener {
                 try {
-                    val results = identifyFuture.get()
+                    _alertMessage.value = null
 
+                    val results = identifyFuture.get()
                     val targetLayerName = "Building"
 
-                    results.firstOrNull { it.layerContent is FeatureLayer && it.layerContent.name == targetLayerName }
-                        ?.elements
-                        ?.firstOrNull()
-                        ?.let { geoElement ->
-                            val feature = geoElement as? Feature
-                            feature?.let {
-                                setBuildingId(feature)
-                                handleIdentifiedFeature(it)
-                            }
-                        }
+                    val matchingResult = results.firstOrNull {
+                        it.layerContent is FeatureLayer && it.layerContent.name == targetLayerName
+                    }
+
+                    val geoElement = matchingResult?.elements?.firstOrNull()
+                    val feature = geoElement as? Feature
+
+                    if (feature != null) {
+                        setBuildingId(feature)
+                        handleIdentifiedFeature(feature)
+                    } else {
+                        _isLoading.value = false
+                        _alertMessage.value = "no building found at the selected location!"
+                    }
 
                 } catch (e: Exception) {
                     Log.e("IdentifyLayer", "Error during identify result parsing", e)
                 }
             }
+
 
         } catch (e: Exception) {
             Log.e("IdentifyLayer", "Failed to perform identify", e)
@@ -108,6 +115,7 @@ class MapViewModel(private val repo: Repository): ViewModel() {
     private fun setBuildingId(feature: Feature){
         val objectId = feature.attributes["OBJECTID"]
         _selectedBuildingId.value = objectId as Long?
+        _isLoading.value = false
     }
 
     suspend fun  getBuildingFiles(buildingId: Long){

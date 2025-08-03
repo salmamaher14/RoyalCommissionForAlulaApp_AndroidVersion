@@ -2,6 +2,7 @@ package com.example.royalcommissionforalulaapp_androidversion.ui.theme.sheets.vi
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -23,7 +24,6 @@ fun AllSheets(
     pages: List<Page>
 
 ) {
-    Log.d("AllSheets", "AllSheets: here")
     ReusableTextComponent(
         text = "Sheets: ",
         fontSize = 22.sp,
@@ -31,7 +31,10 @@ fun AllSheets(
     )
 
     LazyColumn(
-        modifier = Modifier.padding(12.dp),
+        modifier = Modifier
+            .height(300.dp)
+            .padding(12.dp)
+        ,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
