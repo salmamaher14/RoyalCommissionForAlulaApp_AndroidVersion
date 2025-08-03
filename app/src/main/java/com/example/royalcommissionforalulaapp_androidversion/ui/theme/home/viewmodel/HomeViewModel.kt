@@ -27,6 +27,7 @@ class HomeViewModel(private val repo: Repository): ViewModel() {
         val response = repo.getProgress(token = "h5wJeT2/BqAMYdWINCoj4IUj0iG8XketPidZrjD7EWD7RkvrZQsr7o51Om9U74IfgwNUGnE/0Pg=")
         _progressSteps.value = response.steps
         _totalOfBuildings.value = response.steps.first().total
+        Log.d("getProgress", "getProgress: ${_totalOfBuildings.value}")
     }
 
 

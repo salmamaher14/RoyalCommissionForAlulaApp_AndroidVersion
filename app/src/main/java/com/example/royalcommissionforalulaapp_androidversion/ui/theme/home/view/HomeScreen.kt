@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,15 +34,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.CardView
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ReusableTextComponent
-import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.TopBarComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
 
 import com.example.royalcommissionforalulaapp_androidversion.db.UserPreferencesImpl
 import com.example.royalcommissionforalulaapp_androidversion.network.retrofit.RetrofitProviderImpl
 import com.example.royalcommissionforalulaapp_androidversion.repo.RepositoryImpl
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.TopBar
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view.MapViewComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmodel.MapViewModel
 
@@ -51,6 +53,7 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmo
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     viewModel: HomeViewModel
 ) {
     val context = LocalContext.current
@@ -61,7 +64,9 @@ fun HomeScreen(
 
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBarComponent()
+
+        TopBar()
+
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -109,6 +114,7 @@ fun ScopeOfWork(
         )
 
         if(totalOfBuildings != 0){
+            Log.d("ScopeOfWork", "ScopeOfWork: yes")
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -129,6 +135,8 @@ fun ScopeOfWork(
                 )
             }
         }else {
+            Log.d("ScopeOfWork", "ScopeOfWork: no")
+
             CircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -198,7 +206,7 @@ fun ProgressCards(
 @Preview
 @Composable
 fun TobBarPreview(modifier: Modifier = Modifier) {
-    TopBarComponent()
+    //TopBarComponent()
 }
 
 

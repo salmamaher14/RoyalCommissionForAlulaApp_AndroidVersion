@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.AlertComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ButtonComponent
@@ -38,7 +39,10 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 
 
 @Composable
-fun Login(viewmodel: LoginViewmodel) {
+fun LoginScreen(
+    navController: NavController,
+    viewmodel: LoginViewmodel
+    ) {
 
     Box(
         modifier = Modifier
@@ -56,7 +60,7 @@ fun Login(viewmodel: LoginViewmodel) {
                 .fillMaxSize()
         )
 
-        MainBox(viewmodel)
+        MainBox(viewmodel, navController)
 
         CopyRightsLogo(
             modifier = Modifier
@@ -68,7 +72,9 @@ fun Login(viewmodel: LoginViewmodel) {
 
 
 @Composable
-fun MainBox(viewmodel: LoginViewmodel) {
+fun MainBox(
+    viewmodel: LoginViewmodel,
+    navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,7 +84,7 @@ fun MainBox(viewmodel: LoginViewmodel) {
 
         Column {
             LogoWithTitle()
-            UserData(viewmodel)
+            UserData(viewmodel, navController)
         }
 
     }
@@ -141,12 +147,16 @@ fun AppTitle() {
 }
 
 @Composable
-fun UserData(viewmodel: LoginViewmodel) {
+fun UserData(
+    viewmodel: LoginViewmodel,
+    navController: NavController
+) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
     val loginResult by viewmodel.loginResult.collectAsState()
+    val isLoginSucceeded by viewmodel.isLoginSucceeded.collectAsState()
 
 
     LaunchedEffect(loginResult) {
@@ -183,6 +193,10 @@ fun UserData(viewmodel: LoginViewmodel) {
                 viewmodel.checkUserData(username, password)
             }
         )
+
+        if (isLoginSucceeded){
+            navController.navigate("home_screen")
+        }
 
     }
 

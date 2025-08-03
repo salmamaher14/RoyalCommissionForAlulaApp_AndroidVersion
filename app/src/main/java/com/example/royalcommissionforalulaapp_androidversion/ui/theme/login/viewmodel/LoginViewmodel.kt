@@ -14,11 +14,17 @@ class LoginViewmodel(private val repository: Repository): ViewModel(){
     private  val _loginResult =  MutableStateFlow<Result<LoginResponse>?>(null)
             val loginResult : StateFlow<Result<LoginResponse>?> = _loginResult
 
+    private var _isLoginSucceeded = MutableStateFlow(false)
+    var isLoginSucceeded: StateFlow<Boolean> = _isLoginSucceeded
+
+
     fun login(username: String, password: String) {
         viewModelScope.launch {
             try {
                 val response = repository.login(LoginRequest(username, password))
                 if (response.token != null) {
+                    _isLoginSucceeded.value = true
+
                     _loginResult.value = Result.success(response)
                     repository.saveUserData(UserData(token = response.token, name = response.name, role = response.role))
 
