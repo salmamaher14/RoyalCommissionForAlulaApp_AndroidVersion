@@ -18,15 +18,3 @@ class ViewModelFactory(private  val repository: Repository): ViewModelProvider.F
 
 }
 
-/*
-class AppViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return when {
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository) as T
-            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(repository) as T
-            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
-        }
-    }
-}
-
- */

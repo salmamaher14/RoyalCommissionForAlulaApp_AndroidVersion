@@ -5,15 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
+import com.example.royalcommissionforalulaapp_androidversion.constants.Constants
 
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view.HomeScreen
@@ -27,18 +24,23 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val repo = (application as App).repository
+        ArcGISRuntimeEnvironment.setApiKey(Constants.MAP_KEY)
+
+        val app = (application as App)
+        val repo = app.repository
 
 
         enableEdgeToEdge()
+
         setContent {
+
             val navController = rememberNavController()
 
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login_screen"
+                    startDestination = app.checkIfUserLogged()
                 ) {
 
                     composable("login_screen") {
@@ -51,6 +53,7 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController, viewModel = viewmodel)
                     }
 
+
                 }
 
 
@@ -60,49 +63,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RoyalCommissionForAlulaApp_AndroidVersionTheme {
-        Greeting("Android")
-    }
-}
 
-//  //ArcGISRuntimeEnvironment.setApiKey(Constants.arcGisMapKey)
 
-/*
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val viewmodel = YourViewModel() // or use hiltViewModel()
-
-        setContent {
-            val navController = rememberNavController()
-
-            // Your app's root UI
-            NavHost(
-                navController = navController,
-                startDestination = "login_screen"
-            ) {
-                composable("login_screen") {
-                    LoginScreen(navController = navController, viewmodel = viewmodel)
-                }
-
-                composable("home_screen") {
-                    HomeScreen(navController = navController)
-                }
-            }
-        }
-    }
-}
-
- */

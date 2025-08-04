@@ -67,7 +67,6 @@ fun MapViewComponent(
 
     LaunchedEffect(buildingPages) {
         if (!buildingPages.isNullOrEmpty()) {
-          //  delay(300)
             sheetsBringIntoViewRequester.bringIntoView()
         }
     }
@@ -144,8 +143,6 @@ fun MapViewComponent(
 }
 
 
-
-/*
 /*
 @Composable
 fun MapViewComponent(
@@ -262,4 +259,3 @@ fun MapViewComponent(
 
 }
 */
- */

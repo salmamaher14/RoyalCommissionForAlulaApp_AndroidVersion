@@ -24,8 +24,7 @@ interface ApiService {
     @GET("GetBuilding")
     suspend fun getBuilding(@Query("gisId") buildingId: String, @Header("Authorization") token: String): BuildingData
 
-    @GET
-    suspend fun downloadFile(@Url fileUrl: String): Response<ResponseBody>
+
 
 }
 

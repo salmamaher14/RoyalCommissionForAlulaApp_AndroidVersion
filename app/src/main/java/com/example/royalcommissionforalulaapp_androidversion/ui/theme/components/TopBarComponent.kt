@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -33,43 +35,65 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.royalcommissionforalulaapp_androidversion.R
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
 
 
 @Composable
 fun UserProfileView(
+    userName: String,
+    onLogout: () -> Unit
 
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .padding(vertical = 8.dp)
+
+            .padding(horizontal = 12.dp)
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(10.dp)
             ),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row {
-            Text(
-                text =  "Omar",
+
+
+        ReusableTextComponent(
+            text = userName,
+            fontFamily = FontFamily(Font(R.font.text_bold)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
             )
-        }
 
         Divider()
 
         TextButton(
-
-            onClick = {}
+            onClick = {
+                onLogout()
+            }
         ) {
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                 //   .padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ){
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Logout"
+                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                    contentDescription = "Logout",
+                    tint = Color.LightGray
+
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("Logout")
+                ReusableTextComponent(
+                    text = "Logout",
+                    fontFamily = FontFamily(Font(R.font.text_bold))
+                )
             }
         }
     }
@@ -78,30 +102,33 @@ fun UserProfileView(
 
 @Composable
 fun TopBar(
+    navController: NavController,
+    viewModel: HomeViewModel
 ) {
     var showProfile by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier.fillMaxWidth()
-            .background(colorResource(R.color.main_color)),
-
-        contentAlignment = Alignment.CenterStart
-    ) {
         Row(
             modifier = Modifier
+                .background(colorResource(R.color.main_color))
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(vertical = 40.dp)
+                .padding(top = 40.dp)
+                .padding(bottom = 20.dp)
             ,
 
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
-                modifier = Modifier
-                    .width(160.dp)
+                modifier =
+                     Modifier
+                    .width(160.dp),
+
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+
             ) {
                 Image(
+
                     painter = painterResource(R.drawable.user_profile),
                     contentDescription = "User profile",
                     modifier = Modifier
@@ -114,20 +141,23 @@ fun TopBar(
                 )
 
                 if (showProfile) {
-
                     UserProfileView(
+                        userName = viewModel.getUserName() ?: "",
+                        onLogout = {
+                        viewModel.clearUserData()
+                        navController.navigate("login_screen")
 
-                    )
+                    })
                 }
-            }
 
-            Spacer(modifier = Modifier.weight(1f))
+            }
 
             ImageViewerComponent(
                 image = painterResource(R.drawable.app_logo),
             )
+
         }
-    }
+
 }
 
 

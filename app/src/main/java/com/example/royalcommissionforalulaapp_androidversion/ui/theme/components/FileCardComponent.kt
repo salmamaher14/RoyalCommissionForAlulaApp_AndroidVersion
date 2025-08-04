@@ -88,9 +88,9 @@ fun FileCard(
                 }
             ) {
                 when(fileType?.rawValue){
-                    "Image" -> fileUrl?.let { ImageViewer(imageUrl = Constants.base_file_url + it) }
+                    "Image" -> fileUrl?.let { ImageViewer(imageUrl = Constants.BASE_FILE_URL + it) }
 
-                    else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.base_file_url + it) }
+                    else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
                 }
             }
         }

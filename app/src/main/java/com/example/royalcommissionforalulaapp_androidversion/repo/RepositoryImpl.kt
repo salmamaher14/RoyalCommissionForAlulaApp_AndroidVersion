@@ -17,18 +17,32 @@ class RepositoryImpl(private val apiService: ApiService, private val localServic
         return apiService.post(userData)
     }
 
-     override suspend fun getProgress(token: String): ProgressData {
-         return apiService.getProgress(token)
+     override suspend fun getProgress(): ProgressData? {
+         val token = getStoredUserData().token
+
+         return if (!token.isNullOrEmpty()){
+              apiService.getProgress(token)
+         }else{
+             null
+         }
      }
 
-    override suspend fun getBuilding(buildingId: String, token: String): BuildingData {
-        Log.d("repo", "getBuilding: $buildingId")
-        return apiService.getBuilding(buildingId, token)
+    override suspend fun getBuilding(buildingId: String): BuildingData? {
+        val token = getStoredUserData().token
+        return if (!token.isNullOrEmpty()){
+            apiService.getBuilding(buildingId, token)
+
+        }else{
+            null
+        }
+
     }
 
     override fun getStoredUserData(): UserData {
         return  localService.getData()
     }
+
+
 
     override suspend fun downloadFile(fileUrl: String): Response<ResponseBody> {
         return apiService.downloadFile(fileUrl)
@@ -36,6 +50,10 @@ class RepositoryImpl(private val apiService: ApiService, private val localServic
 
     override fun saveUserData(userData: UserData) {
         return localService.saveData(userData)
+    }
+
+    override fun clearUserData() {
+        localService.clearData()
     }
 
 

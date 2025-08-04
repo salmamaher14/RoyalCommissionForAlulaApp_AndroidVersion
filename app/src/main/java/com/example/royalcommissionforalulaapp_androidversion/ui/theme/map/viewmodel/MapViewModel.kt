@@ -36,7 +36,7 @@ class MapViewModel(private val repo: Repository): ViewModel() {
 
 
     fun getMap(): ArcGISMap{
-        return ArcGISMap(Constants.webMapUrl)
+        return ArcGISMap(Constants.WEB_MAP_URL)
     }
 
     fun setMapView(map: ArcGISMap) {
@@ -119,8 +119,8 @@ class MapViewModel(private val repo: Repository): ViewModel() {
     }
 
     suspend fun  getBuildingFiles(buildingId: Long){
-        val response = repo.getBuilding(buildingId = buildingId.toString(), token = "h5wJeT2/BqAMYdWINCoj4IUj0iG8XketPidZrjD7EWD7RkvrZQsr7o51Om9U74IfgwNUGnE/0Pg=")
-        _buildingPages.value = response.pages
+        val response = repo.getBuilding(buildingId = buildingId.toString())
+        _buildingPages.value = response?.pages
 
     }
 

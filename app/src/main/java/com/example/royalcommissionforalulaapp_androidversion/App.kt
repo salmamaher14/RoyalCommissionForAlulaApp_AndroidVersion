@@ -18,5 +18,14 @@ class App: Application() {
     }
 
 
+    fun checkIfUserLogged(): String {
+        return if(!repository.getStoredUserData().token.isNullOrEmpty()){
+            "home_screen"
+        }else{
+            "login_screen"
+        }
+    }
+
+
 }
 

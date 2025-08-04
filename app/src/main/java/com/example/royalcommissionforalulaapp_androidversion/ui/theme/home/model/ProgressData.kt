@@ -2,7 +2,6 @@ package com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.mode
 
 import com.google.gson.annotations.SerializedName
 
-
 data class Step(
     @SerializedName("Id") val id: Int?,
     @SerializedName("Name") val name: String?,
