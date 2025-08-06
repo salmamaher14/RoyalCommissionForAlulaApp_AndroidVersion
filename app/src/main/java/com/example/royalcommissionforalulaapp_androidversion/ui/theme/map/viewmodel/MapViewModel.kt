@@ -35,13 +35,20 @@ class MapViewModel(private val repo: Repository): ViewModel() {
     val  graphicsOverlay = GraphicsOverlay()
 
 
-    fun getMap(): ArcGISMap{
-        return ArcGISMap(Constants.WEB_MAP_URL)
+    fun getMap(): ArcGISMap {
+        val map = ArcGISMap(Constants.WEB_MAP_URL)
+        map.minScale = 0.0
+        map.maxScale = 71.3
+
+        return map
     }
+
 
     fun setMapView(map: ArcGISMap) {
         _map.value = map
+
     }
+
 
     fun identifyLayer(screenPoint: android.graphics.Point, mapView: MapView){
         try {
@@ -126,7 +133,7 @@ class MapViewModel(private val repo: Repository): ViewModel() {
 
 
 }
-
+// problem it gives no building  found
 
 /*
     fun filterLayers() {

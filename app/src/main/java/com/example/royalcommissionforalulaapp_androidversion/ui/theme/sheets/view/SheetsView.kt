@@ -1,6 +1,5 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.sheets.view
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding

@@ -166,7 +166,7 @@ fun CardView(
     perc2: Double
 ) {
     val cardWidth = LocalConfiguration.current.screenWidthDp.dp - 40.dp
-    val backgroundColor = colorResource(R.color.secondary_color)
+    val backgroundColor = Color.LightGray.copy(0.09F)
 
     Column(
         modifier = Modifier
@@ -175,7 +175,7 @@ fun CardView(
     ) {
         ReusableTextComponent(
             text = name,
-            fontFamily = FontFamily(Font(R.font.text_bold)),
+            fontFamily = FontFamily(Font(R.font.text_medium)),
             fontSize = 18.sp,
             modifier = Modifier
                 .fillMaxWidth()

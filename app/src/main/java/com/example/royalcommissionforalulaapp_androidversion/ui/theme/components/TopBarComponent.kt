@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.royalcommissionforalulaapp_androidversion.R
@@ -65,6 +67,7 @@ fun UserProfileView(
         ReusableTextComponent(
             text = userName,
             fontFamily = FontFamily(Font(R.font.text_bold)),
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
@@ -80,7 +83,7 @@ fun UserProfileView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                 //   .padding(4.dp),
+
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
@@ -92,6 +95,8 @@ fun UserProfileView(
                 )
                 ReusableTextComponent(
                     text = "Logout",
+                    textAlign = TextAlign.Center,
+                    textColor = Color.LightGray,
                     fontFamily = FontFamily(Font(R.font.text_bold))
                 )
             }
@@ -112,8 +117,8 @@ fun TopBar(
                 .background(colorResource(R.color.main_color))
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(top = 40.dp)
-                .padding(bottom = 20.dp)
+             //   .padding(top = 40.dp)
+               .padding(bottom = 10.dp)
             ,
 
             verticalAlignment = Alignment.CenterVertically,
@@ -153,7 +158,11 @@ fun TopBar(
             }
 
             ImageViewerComponent(
+
                 image = painterResource(R.drawable.app_logo),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
             )
 
         }

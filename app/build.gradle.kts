@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.royalcommissionforalulaapp_androidversion"
     compileSdk = 35
 
@@ -43,6 +44,8 @@ android {
             excludes += "META-INF/DEPENDENCIES"
         }
     }
+
+
 }
 
 dependencies {
@@ -84,8 +87,24 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.compose.foundation:foundation:1.5.0")
 
-
+    // navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    implementation("com.github.pratikksahu:JetPDFVue:1.0.7")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

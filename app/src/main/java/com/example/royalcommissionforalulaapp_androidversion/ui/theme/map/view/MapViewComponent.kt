@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,6 +58,7 @@ fun MapViewComponent(
     val selectedBuildingId by viewmodel.selectedBuildingId.collectAsState()
     val buildingPages by viewmodel.buildingPages.collectAsState()
     val isLoading by viewmodel.isLoading.collectAsState()
+    val isMapLoaded = remember { mutableStateOf(false) }
     val alertMessage by viewmodel.alertMessage.collectAsState()
 
     val sheetsBringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -72,6 +74,8 @@ fun MapViewComponent(
     }
 
     val mapView = remember {
+        isMapLoaded.value = true
+
         MapView(context).apply {
             map = viewmodel.getMap()
 
@@ -80,6 +84,7 @@ fun MapViewComponent(
             }
 
             map.addDoneLoadingListener {
+                isMapLoaded.value = false
                 viewmodel.setMapView(map)
             }
         }
@@ -89,7 +94,7 @@ fun MapViewComponent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 100.dp),
+            .padding(bottom = 30.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
@@ -122,7 +127,14 @@ fun MapViewComponent(
             if (isLoading){
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
-                    color = Color.White
+                    color = Color.LightGray
+                )
+            }
+
+            if (isMapLoaded.value){
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = Color.LightGray
                 )
             }
 
@@ -143,119 +155,4 @@ fun MapViewComponent(
 }
 
 
-/*
-@Composable
-fun MapViewComponent(
-    modifier: Modifier = Modifier,
-    viewmodel: MapViewModel
-) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val selectedBuildingId by viewmodel.selectedBuildingId.collectAsState()
-    val buildingPages by viewmodel.buildingPages.collectAsState()
-    val isLoading by viewmodel.isLoading.collectAsState()
-    val alertMessage by viewmodel.alertMessage.collectAsState()
 
-    LaunchedEffect(selectedBuildingId) {
-        selectedBuildingId?.let { viewmodel.getBuildingFiles(it) }
-    }
-
-    val mapView = remember {
-        MapView(context).apply {
-            map = viewmodel.getMap()
-
-            if(!graphicsOverlays.contains(viewmodel.graphicsOverlay)){
-                graphicsOverlays.add(viewmodel.graphicsOverlay)
-            }
-
-            map.addDoneLoadingListener {
-                viewmodel.setMapView(map)
-            }
-        }
-    }
-
-    DisposableEffect(lifecycleOwner) {
-        val lifecycleObserver = object : DefaultLifecycleObserver {
-            override fun onResume(owner: LifecycleOwner) {
-                mapView.resume()
-            }
-
-            override fun onPause(owner: LifecycleOwner) {
-                mapView.pause()
-            }
-
-            override fun onDestroy(owner: LifecycleOwner) {
-                mapView.dispose()
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 100.dp)
-        ,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-        ReusableTextComponent(
-            text = "General Location:",
-            fontSize = 22.sp,
-            fontFamily = FontFamily(Font(R.font.text_semi_bold)),
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .padding(0.dp)
-                //.background(Color.Red)
-        )
-
-        Box {
-            AndroidView(
-                factory = {
-                    mapView.setOnTouchListener(object : DefaultMapViewOnTouchListener(context, mapView) {
-                        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                            val screenPoint = android.graphics.Point(e.x.toInt(), e.y.toInt())
-                            viewmodel.identifyLayer(screenPoint, mapView)
-
-                            return super.onSingleTapConfirmed(e)
-                        }
-                    })
-
-                    mapView
-                },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .clip(RoundedCornerShape(15.dp))
-
-
-            )
-
-            if (isLoading){
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    color = Color.White
-                )
-            }
-
-            if (!alertMessage.isNullOrEmpty()){
-                Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show()
-
-            }
-        }
-
-        buildingPages?.let {
-            AllSheets(
-                pages = it
-            )
-        }
-
-    }
-
-}
-*/

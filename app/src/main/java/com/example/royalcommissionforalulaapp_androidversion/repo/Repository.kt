@@ -12,7 +12,6 @@ interface Repository {
     suspend fun login(userData: LoginRequest): LoginResponse
     suspend fun getProgress(): ProgressData?
     suspend fun getBuilding(buildingId: String): BuildingData?
-    suspend fun downloadFile(fileUrl: String): Response<ResponseBody>
     fun saveUserData(userData: UserData)
     fun getStoredUserData(): UserData
     fun clearUserData()

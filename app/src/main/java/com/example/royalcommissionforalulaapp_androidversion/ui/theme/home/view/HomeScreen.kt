@@ -14,13 +14,20 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
@@ -44,7 +51,7 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.viewmo
 
 
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -57,32 +64,54 @@ fun HomeScreen(
         viewModel.getProgress()
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-
-        TopBar(navController, viewModel)
-
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            ScopeOfWork(viewModel)
-
-            ProgressCards(viewModel)
-
-            MapViewComponent(
-                viewmodel = MapViewModel(
-                    repo = RepositoryImpl(
-                        RetrofitProviderImpl().getApiService(),
-                        localService = UserPreferencesImpl.getInstance(context)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    ReusableTextComponent(
+                        text = "Dashboard",
+                        fontSize = 28.sp,
+                        textColor = colorResource(R.color.secondary_color),
+                        fontFamily = FontFamily(Font(R.font.text_bold))
                     )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(R.color.main_color)
                 )
             )
         }
-    }
+    ) { innerPadding ->
 
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            TopBar(navController, viewModel)
+
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                ScopeOfWork(viewModel)
+
+                ProgressCards(viewModel)
+
+                MapViewComponent(
+                    viewmodel = MapViewModel(
+                        repo = RepositoryImpl(
+                            RetrofitProviderImpl().getApiService(),
+                            localService = UserPreferencesImpl.getInstance(context)
+                        )
+                    )
+                )
+            }
+        }
+    }
 }
+
 
 @Composable
 fun ScopeOfWork(
@@ -102,9 +131,7 @@ fun ScopeOfWork(
             fontSize = 22.sp,
             fontFamily = FontFamily(Font(R.font.text_semi_bold)),
             textAlign = TextAlign.Start,
-            modifier = Modifier
-                .padding(0.dp)
-                //.background(Color.Red)
+
         )
 
         if(totalOfBuildings != 0){
@@ -132,6 +159,7 @@ fun ScopeOfWork(
             Log.d("ScopeOfWork", "ScopeOfWork: no")
 
             CircularProgressIndicator(
+                color = Color.LightGray,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentWidth(Alignment.CenterHorizontally)
@@ -148,7 +176,12 @@ fun ProgressCards(
     modifier: Modifier = Modifier
 ) {
     val steps by viewModel.progressSteps.collectAsState()
+    val isCardsLoaded = remember { mutableStateOf(true) }
 
+
+    LaunchedEffect(viewModel.progressSteps) {
+        isCardsLoaded.value = false
+    }
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -191,6 +224,15 @@ fun ProgressCards(
                 }
             }
 
+        }
+
+        if(isCardsLoaded.value){
+            CircularProgressIndicator(
+                color = Color.LightGray,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
         }
     }
 }

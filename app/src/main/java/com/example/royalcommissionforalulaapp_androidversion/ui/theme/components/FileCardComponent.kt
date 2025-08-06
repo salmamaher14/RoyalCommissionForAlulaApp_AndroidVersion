@@ -2,11 +2,13 @@ package com.example.royalcommissionforalulaapp_androidversion.ui.theme.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -49,7 +51,7 @@ fun FileCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colorResource(R.color.secondary_color), shape = RoundedCornerShape(15.dp)),
+            .background(Color.LightGray.copy(0.09F), shape = RoundedCornerShape(15.dp)),
 
     ) {
         page.name?.trim()?.let {
@@ -81,19 +83,31 @@ fun FileCard(
 
         }
 
-        if (showModal){
+
+        if (showModal) {
+
+            when (fileType?.rawValue) {
+                "Image" -> fileUrl?.let { ImageV(imageUrl = Constants.BASE_FILE_URL + it) }
+
+
+                else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
+            }
+        }
+
+        /*if (showModal){
             CustomModalBottomSheet(
                 onDismissRequest = {
                     showModal = false
                 }
             ) {
                 when(fileType?.rawValue){
-                    "Image" -> fileUrl?.let { ImageViewer(imageUrl = Constants.BASE_FILE_URL + it) }
+                    "Image" -> fileUrl?.let { ImageV(imageUrl = Constants.BASE_FILE_URL + it) }
+
 
                     else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
                 }
             }
-        }
+        }*/
     }
 }
 
@@ -115,6 +129,7 @@ fun FileRow(
             },
 
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
 
         ){
         Icon(
@@ -134,6 +149,8 @@ fun FileRow(
 
 }
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomModalBottomSheet(
@@ -145,15 +162,18 @@ fun CustomModalBottomSheet(
     val coroutineScope = rememberCoroutineScope()
 
     ModalBottomSheet(
+
         onDismissRequest = {
             coroutineScope.launch {
                 sheetState.hide()
                 onDismissRequest()
             }
         },
+
         sheetState = sheetState,
         containerColor = colorResource(R.color.secondary_color),
         modifier = modifier
+
             .padding(top = 24.dp)
     ) {
         content()

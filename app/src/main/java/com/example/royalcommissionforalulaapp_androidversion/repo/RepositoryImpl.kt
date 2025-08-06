@@ -44,9 +44,7 @@ class RepositoryImpl(private val apiService: ApiService, private val localServic
 
 
 
-    override suspend fun downloadFile(fileUrl: String): Response<ResponseBody> {
-        return apiService.downloadFile(fileUrl)
-    }
+
 
     override fun saveUserData(userData: UserData) {
         return localService.saveData(userData)

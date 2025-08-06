@@ -4,19 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.example.royalcommissionforalulaapp_androidversion.constants.Constants
-
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommissionForAlulaApp_AndroidVersionTheme
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view.HomeScreen
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
 import com.example.royalcommissionforalulaapp_androidversion.factory.ViewModelFactory
-
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view.LoginScreen
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.viewmodel.LoginViewmodel
 
@@ -53,7 +50,6 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController, viewModel = viewmodel)
                     }
 
-
                 }
 
 
@@ -61,8 +57,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-
 
 
