@@ -139,7 +139,8 @@ fun MapViewComponent(
             }
 
             if (!alertMessage.isNullOrEmpty()){
-                Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show()
+                viewmodel.clearAlertMessage()
             }
         }
 

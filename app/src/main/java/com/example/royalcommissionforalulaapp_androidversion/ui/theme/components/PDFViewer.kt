@@ -37,63 +37,6 @@ fun PdfViewer(pdfUrl: String) {
 
 }
 
-@Composable
-fun ImageV(imageUrl: String) {
-    val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        try {
-            val file = withContext(Dispatchers.IO) {
-                downloadImageToCache(context, imageUrl)
-            }
-
-            val uri = FileProvider.getUriForFile(
-                context,
-                "com.example.royalcommissionforalulaapp_androidversion.provider",
-                file
-            )
-
-            Log.d("ImageV", "Opening local URI: $uri")
-
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(uri, "image/*")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-            val chooser = Intent.createChooser(intent, "Open image with...")
-            context.startActivity(chooser)
-
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "No image viewer found", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
-        }
-    }
-}
-
-
-fun downloadImageToCache(context: Context, imageUrl: String): File {
-    val fileName = imageUrl.hashCode().toString() + ".jpg"
-    val file = File(context.cacheDir, fileName)
-
-    if (file.exists()) {
-        Log.d("downloadImage", "File already exists: $fileName")
-        return file
-    }
-
-    Log.d("downloadImage", "Downloading new image: $fileName")
-    val url = URL(imageUrl)
-    val connection = url.openConnection()
-    connection.connect()
-
-    val inputStream = connection.getInputStream()
-    file.outputStream().use { output ->
-        inputStream.copyTo(output)
-    }
-
-    return file
-}
 
 
 /*

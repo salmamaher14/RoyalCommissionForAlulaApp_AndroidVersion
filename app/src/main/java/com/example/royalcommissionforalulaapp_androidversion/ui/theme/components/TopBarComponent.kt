@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
@@ -66,6 +67,7 @@ fun UserProfileView(
 
         ReusableTextComponent(
             text = userName,
+            fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.text_bold)),
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -73,7 +75,10 @@ fun UserProfileView(
                 .padding(8.dp)
             )
 
-        Divider()
+        Divider(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+        )
 
         TextButton(
             onClick = {
@@ -117,7 +122,6 @@ fun TopBar(
                 .background(colorResource(R.color.main_color))
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-             //   .padding(top = 40.dp)
                .padding(bottom = 10.dp)
             ,
 
@@ -169,103 +173,3 @@ fun TopBar(
 
 }
 
-
-/*
-@Composable
-fun TopBarComponent(
-    modifier: Modifier = Modifier,
-    )
-{
-    var showMenu by remember { mutableStateOf(false) }
-    Box(
-        modifier = modifier
-            .height(150.dp)
-            .background(colorResource(R.color.main_color))
-            .padding(horizontal = 12.dp)
-        ,
-        contentAlignment = Alignment.CenterStart,
-
-        ){
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-
-        ) {
-            Column(
-                horizontalAlignment = Alignment.Start
-            ) {
-                ImageViewerComponent(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            showMenu = true
-                            Log.d("clicking", "TopBarComponent: ")
-                        },
-                    image = painterResource(R.drawable.user_profile),
-                )
-
-
-
-                if(showMenu){
-                    UserProfileView {  }
-                }
-            }
-
-            ImageViewerComponent(
-                image = painterResource(R.drawable.app_logo),
-            )
-
-
-
-        }
-
-
-
-
-    }
-
-}
-
-
-
-@Composable
-fun UserProfileView(
-    modifier: Modifier = Modifier,
-    onLogout: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .width(100.dp)
-          //  .padding(horizontal = 12.dp)
-            .background(Color.White, RoundedCornerShape(10.dp)),
-
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
-        Text(
-            text = "salma",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Divider()
-
-        TextButton(onClick = onLogout) {
-            Icon(
-                imageVector = Icons.Default.ExitToApp,
-                contentDescription = "Logout",
-                tint = Color.Gray
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Logout",
-                color = Color.Gray
-            )
-        }
-    }
-}
-
-*/

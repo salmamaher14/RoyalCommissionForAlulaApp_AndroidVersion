@@ -53,7 +53,6 @@ fun AlertComponent(
                Text(
                    confirmButtonTitle ,
                    modifier = Modifier
-                       //.fillMaxWidth()
                        .clickable {
                            onDismiss()
                        }

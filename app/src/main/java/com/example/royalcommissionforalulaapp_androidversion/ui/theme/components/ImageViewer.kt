@@ -1,31 +1,62 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.request.ImageRequest
+import androidx.core.content.FileProvider
+import com.example.royalcommissionforalulaapp_androidversion.utilities.Utilities
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.net.URL
+
+
+@Composable
+fun ImageViewer(imageUrl: String) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        try {
+            val file = withContext(Dispatchers.IO) {
+                Utilities.downloadImageToCache(context, imageUrl)
+            }
+
+            val uri = FileProvider.getUriForFile(
+                context,
+                "com.example.royalcommissionforalulaapp_androidversion.provider",
+                file
+            )
+
+            Log.d("ImageV", "Opening local URI: $uri")
+
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "image/*")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            val chooser = Intent.createChooser(intent, "Open image with...")
+            context.startActivity(chooser)
+
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "No image viewer found", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+}
 
 
 
 
 
+
+/*
 @Composable
 fun ImageViewer(imageUrl: String) {
     var scale by remember { mutableFloatStateOf(1f) }
@@ -73,7 +104,7 @@ fun ImageViewer(imageUrl: String) {
     }
 }
 
-
+*/
 
 
 

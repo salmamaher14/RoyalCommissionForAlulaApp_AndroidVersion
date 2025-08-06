@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,10 +32,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImagePainter
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.AlertComponent
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.ButtonComponent
@@ -157,10 +165,13 @@ fun UserData(
     var errorMessage by remember { mutableStateOf("") }
     val loginResult by viewmodel.loginResult.collectAsState()
     val isLoginSucceeded by viewmodel.isLoginSucceeded.collectAsState()
+    val loading = remember { mutableStateOf(false) }
+    val passwordVisible = remember { mutableStateOf(false) }
 
 
     LaunchedEffect(loginResult) {
         loginResult?.onFailure {
+            loading.value = false
             showDialog = true
             errorMessage = it.toString()
         }
@@ -178,8 +189,20 @@ fun UserData(
             username = it
         }
 
-        TextFieldComponent(userInput = password,
-            placeholder = "password"
+
+        TextFieldComponent(
+            userInput = password,
+            placeholder = "password",
+            visualTransformation = if(passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible.value = !passwordVisible.value}) {
+                   Icon(
+                       imageVector = if (passwordVisible.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                       contentDescription = "password icon",
+                       tint = Color.Gray
+                   )
+                }
+            }
         ) {
             password = it
         }
@@ -188,13 +211,16 @@ fun UserData(
         LoginButton(
             modifier = Modifier
                 .padding(vertical = 20.dp),
+            isLoading = loading.value,
             onClick = {
+                loading.value = true
                 viewmodel.login(username, password)
                 viewmodel.checkUserData(username, password)
             }
         )
 
         if (isLoginSucceeded){
+            loading.value = false
             navController.navigate("home_screen")
         }
 
@@ -210,15 +236,22 @@ fun UserData(
             }
         )
     }
+
+
 }
 
 @Composable
-fun LoginButton(modifier: Modifier, onClick: () -> Unit) {
+fun LoginButton(
+    modifier: Modifier,
+    isLoading: Boolean,
+    onClick: () -> Unit
+) {
     ButtonComponent(
         modifier = modifier
             .fillMaxWidth(),
 
         title = "Login",
-        onClick = onClick
+        onClick = onClick,
+        isLoading = isLoading
     )
 }

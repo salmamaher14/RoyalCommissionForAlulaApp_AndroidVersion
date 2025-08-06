@@ -3,9 +3,11 @@ package com.example.royalcommissionforalulaapp_androidversion.ui.theme.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
 import com.example.royalcommissionforalulaapp_androidversion.R
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view.AppTitle
 
@@ -29,7 +32,8 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view
 fun ButtonComponent(
     title: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isLoading: Boolean = false
 ) {
     Button(
         modifier = modifier,
@@ -39,12 +43,18 @@ fun ButtonComponent(
         shape = RoundedCornerShape(10.dp)
 
     ) {
-        Text(
-            title, fontSize = 18.sp ,
-            modifier = Modifier.padding(10.dp),
-            textAlign = TextAlign.Center,
-            fontFamily = FontFamily(Font(R.font.text_bold))
-        )
+
+        if(isLoading){
+           CircularProgressIndicator(color = Color.White)
+        }else{
+            Text(
+                title, fontSize = 18.sp ,
+                modifier = Modifier.padding(10.dp),
+                textAlign = TextAlign.Center,
+                fontFamily = FontFamily(Font(R.font.text_bold))
+            )
+        }
+
     }
 }
 

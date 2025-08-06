@@ -31,7 +31,9 @@ fun TextFieldComponent(
 ) {
     TextField(
         value = userInput,
-        modifier = modifier.height(52.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp),
         onValueChange = {
             onWrite(it)
             print("value changed")
@@ -54,6 +56,13 @@ fun TextFieldComponent(
                 fontSize = 14.sp
             )
 
-        }
+        },
+
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        trailingIcon = trailingIcon
+
+
     )
 }
+

@@ -14,6 +14,7 @@ import com.example.royalcommissionforalulaapp_androidversion.ui.theme.RoyalCommi
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.view.HomeScreen
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel.HomeViewModel
 import com.example.royalcommissionforalulaapp_androidversion.factory.ViewModelFactory
+import com.example.royalcommissionforalulaapp_androidversion.ui.theme.components.PdfViewer
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.view.LoginScreen
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.login.viewmodel.LoginViewmodel
 
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             RoyalCommissionForAlulaApp_AndroidVersionTheme {
+
 
                 NavHost(
                     navController = navController,

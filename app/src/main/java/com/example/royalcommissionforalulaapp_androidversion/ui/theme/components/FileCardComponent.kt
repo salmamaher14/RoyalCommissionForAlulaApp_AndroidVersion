@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -87,27 +86,16 @@ fun FileCard(
         if (showModal) {
 
             when (fileType?.rawValue) {
-                "Image" -> fileUrl?.let { ImageV(imageUrl = Constants.BASE_FILE_URL + it) }
+                "Image" -> fileUrl?.let { ImageViewer(imageUrl = Constants.BASE_FILE_URL + it) }
+
+
 
 
                 else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
             }
         }
 
-        /*if (showModal){
-            CustomModalBottomSheet(
-                onDismissRequest = {
-                    showModal = false
-                }
-            ) {
-                when(fileType?.rawValue){
-                    "Image" -> fileUrl?.let { ImageV(imageUrl = Constants.BASE_FILE_URL + it) }
 
-
-                    else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
-                }
-            }
-        }*/
     }
 }
 
