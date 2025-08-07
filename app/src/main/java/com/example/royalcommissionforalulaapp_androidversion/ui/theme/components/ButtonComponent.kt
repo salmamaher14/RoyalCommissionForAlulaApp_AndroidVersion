@@ -45,7 +45,7 @@ fun ButtonComponent(
     ) {
 
         if(isLoading){
-           CircularProgressIndicator(color = Color.White)
+           CircularProgressIndicator(color = Color.LightGray)
         }else{
             Text(
                 title, fontSize = 18.sp ,

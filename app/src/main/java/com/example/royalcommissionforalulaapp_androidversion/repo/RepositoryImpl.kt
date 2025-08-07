@@ -20,11 +20,18 @@ class RepositoryImpl(private val apiService: ApiService, private val localServic
      override suspend fun getProgress(): ProgressData? {
          val token = getStoredUserData().token
 
-         return if (!token.isNullOrEmpty()){
-              apiService.getProgress(token)
-         }else{
+         return try {
+              if (!token.isNullOrEmpty()){
+                 apiService.getProgress(token)
+             }else{
+                 null
+             }
+         }catch (e: Exception){
+             Log.d("getProgress", "getProgress: $e")
              null
+
          }
+
      }
 
     override suspend fun getBuilding(buildingId: String): BuildingData? {

@@ -17,7 +17,10 @@ import java.net.URL
 
 
 @Composable
-fun PdfViewer(pdfUrl: String) {
+fun PdfViewer(
+    pdfUrl: String,
+    onComplete: () -> Unit
+    ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         try {
@@ -32,6 +35,8 @@ fun PdfViewer(pdfUrl: String) {
                 "No PDF viewer application found",
                 Toast.LENGTH_LONG
             ).show()
+        }finally {
+            onComplete()
         }
     }
 

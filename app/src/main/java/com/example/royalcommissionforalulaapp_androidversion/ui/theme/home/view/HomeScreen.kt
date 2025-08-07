@@ -118,7 +118,7 @@ fun ScopeOfWork(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val totalOfBuildings by viewModel.totalOfBuildings.collectAsState(0)
+    val totalOfBuildings by viewModel.totalOfBuildings.collectAsState(null)
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -134,13 +134,12 @@ fun ScopeOfWork(
 
         )
 
-        if(totalOfBuildings != 0){
+        if(totalOfBuildings != null){
             Log.d("ScopeOfWork", "ScopeOfWork: yes")
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-               // modifier = Modifier.background(Color.Gray)
             ) {
 
                 ReusableTextComponent(
@@ -176,12 +175,7 @@ fun ProgressCards(
     modifier: Modifier = Modifier
 ) {
     val steps by viewModel.progressSteps.collectAsState()
-    val isCardsLoaded = remember { mutableStateOf(true) }
 
-
-    LaunchedEffect(viewModel.progressSteps) {
-        isCardsLoaded.value = false
-    }
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -194,19 +188,7 @@ fun ProgressCards(
             fontFamily = FontFamily(Font(R.font.text_bold))
         )
 
-        if(steps?.isEmpty() == true){
-            Column(modifier = Modifier.fillMaxWidth()) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Loading Stages...",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-        }else {
+        if(steps != null){
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -223,10 +205,7 @@ fun ProgressCards(
                     }
                 }
             }
-
-        }
-
-        if(isCardsLoaded.value){
+        }else{
             CircularProgressIndicator(
                 color = Color.LightGray,
                 modifier = Modifier
@@ -234,6 +213,9 @@ fun ProgressCards(
                     .wrapContentWidth(Alignment.CenterHorizontally)
             )
         }
+
+
+
     }
 }
 

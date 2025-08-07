@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.royalcommissionforalulaapp_androidversion.repo.Repository
 import com.example.royalcommissionforalulaapp_androidversion.ui.theme.home.model.Step
@@ -12,7 +13,7 @@ class HomeViewModel(private val repo: Repository): ViewModel() {
     private val _progressSteps = MutableStateFlow<List<Step>?>(null)
     val progressSteps: StateFlow<List<Step>?> = _progressSteps
 
-    private val _totalOfBuildings = MutableStateFlow<Int?>(0)
+    private val _totalOfBuildings = MutableStateFlow<Int?>(null)
     val totalOfBuildings: StateFlow<Int?> = _totalOfBuildings
 
 

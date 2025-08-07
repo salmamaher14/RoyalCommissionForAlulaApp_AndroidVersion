@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.map.view
 
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -85,6 +86,7 @@ fun MapViewComponent(
 
             map.addDoneLoadingListener {
                 isMapLoaded.value = false
+                Log.d("MapViewComponent", "MapViewComponent: ${isMapLoaded.value}")
                 viewmodel.setMapView(map)
             }
         }

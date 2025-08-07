@@ -17,7 +17,10 @@ import java.net.URL
 
 
 @Composable
-fun ImageViewer(imageUrl: String) {
+fun ImageViewer(
+    imageUrl: String,
+    onComplete: () -> Unit
+    ) {
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -47,6 +50,8 @@ fun ImageViewer(imageUrl: String) {
         } catch (e: Exception) {
             Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
+        }finally {
+            onComplete()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.royalcommissionforalulaapp_androidversion.ui.theme.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +49,8 @@ fun FileCard(
     var fileType by remember { mutableStateOf<FileType?>(FileType.FILE) }
     var fileUrl by remember { mutableStateOf<String?>(null) }
 
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -64,12 +68,14 @@ fun FileCard(
              )
         }
 
+
         page.files?.forEach { file ->
             FileRow(
                 fileName = file.name ?: "unknown file",
                 fileUrl = file.url,
 
                 onClick = {
+                    showModal = false
                     fileType = Utilities.getFileFormat(name = file.name ?: "")
                     fileUrl = file.url
 
@@ -82,16 +88,19 @@ fun FileCard(
 
         }
 
-
-        if (showModal) {
-
+        if(showModal){
             when (fileType?.rawValue) {
-                "Image" -> fileUrl?.let { ImageViewer(imageUrl = Constants.BASE_FILE_URL + it) }
+                "Image" -> fileUrl?.let {
+                    ImageViewer(imageUrl = Constants.BASE_FILE_URL + it,
+                        onComplete = {
+                            showModal = false
+                        }
+                    )
+                }
 
-
-
-
-                else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it) }
+                else -> fileUrl?.let { PdfViewer(pdfUrl = Constants.BASE_FILE_URL + it,
+                    onComplete = { showModal = false}
+                ) }
             }
         }
 

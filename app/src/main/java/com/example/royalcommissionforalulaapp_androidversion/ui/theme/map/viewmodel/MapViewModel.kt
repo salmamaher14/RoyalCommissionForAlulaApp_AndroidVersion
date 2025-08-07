@@ -48,6 +48,7 @@ class MapViewModel(private val repo: Repository) : ViewModel() {
     fun getMap(): ArcGISMap {
         val map = ArcGISMap(Constants.WEB_MAP_URL)
 
+
         // Allow zooming out more (e.g., to 1:1,000,000 scale)
         map.minScale = 100000.0  // Zoomed out
         map.maxScale = 500.0      // Zoomed in
